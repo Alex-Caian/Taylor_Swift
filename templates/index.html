@@ -21,11 +21,11 @@
         }
 
         img {
-            max-width: 90%;   /* Scale down if screen is small */
+            max-width: 70%;   /* Scale down if screen is small */
             height: auto;
             margin-bottom: 20px;
-            border: 3px solid #333;
-            border-radius: 10px;
+            border: 2px solid #333;
+            border-radius: 5px;
         }
 
         form {
@@ -72,18 +72,34 @@
         <button type="submit">Submit</button>
     </form>
 
-    <p style="color: {% if message_type==1 %}green{% else %}red{% endif %}; font-weight:bold;">
-    {{ message }}
+    <p>
+		<span style = "color:
+		{% if msg_type == 1 %}
+			green
+		{% elif msg_type == 0 %}
+			red
+		{% else %}
+			#000000
+		{% endif %};
+		font-weight:bold;">
+			{{ msg_prefix }}
+		</span>
+		{% if msg_prefix %}
+			The answer was <b>{{ msg_answer }}</b>.<br>
+			Time taken: <b>{{ time_taken }}s</b>
+		{% endif %}
 	</p>
+
 	
-	{% if message_type == 1 %}
+	{% if msg_type == 1 %}
 	<script>
-		// Fire confetti for a short burst
-		confetti({
-			particleCount: 100,
-			spread: 70,
-			origin: { y: 0.6 }
-		});
+		window.onload = function() {
+			confetti({
+				particleCount: 100,
+				spread: 70,
+				origin: { y: 0.6 }
+			});
+		}
 	</script>
 	{% endif %}
 	
