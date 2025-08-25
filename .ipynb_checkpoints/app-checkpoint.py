@@ -32,9 +32,11 @@ def play():
         taken = time.time() - start_time
         
         if best_match == answer:
-            msg = f"Well done! The answer was {answer}. Time taken: {round(taken,2)}s"
+            msg = f"Well done! The answer was {answer}.\nTime taken: {round(taken,2)}s"
+            outcome = 1
         else:
-            msg = f"Nope! :( The answer was {answer}. Time taken: {round(taken,2)}s"
+            msg = f"Nope! =( The answer was {answer}.\nTime taken: {round(taken,2)}s"
+            outcome = 0
     
     albums = handlers.get_albums()
     selection, hex_colors, answer, fig, ax = handlers.generate_drawing()
@@ -46,7 +48,7 @@ def play():
     session["image"] = config.path
     display_image = image if image else config.path
     
-    return render_template("index.html", image=display_image, message=msg, timestamp=int(time.time()*1000))
+    return render_template("index.html", image=display_image, message=msg, message_type=outcome timestamp=int(time.time()*1000))
     
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080, debug=True)

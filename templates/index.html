@@ -2,6 +2,66 @@
 <html>
 <head>
     <title>Album Colour Game</title>
+    <style>
+        /* Make the body a full-page flex container */
+        body {
+            display: flex;
+            flex-direction: column;   /* Stack elements vertically */
+            justify-content: center;  /* Center vertically */
+            align-items: center;      /* Center horizontally */
+            min-height: 100vh;        /* Full viewport height */
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0; /* Light grey background for subtle contrast */
+            margin: 0;                /* Remove default body margin */
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        img {
+            max-width: 90%;   /* Scale down if screen is small */
+            height: auto;
+            margin-bottom: 20px;
+            border: 3px solid #333;
+            border-radius: 10px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+            width: 250px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #ff6600; /* Tiger orange accent */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #e65c00;
+        }
+
+        p {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
     <h1>Guess the Missing Album</h1>
@@ -12,9 +72,23 @@
         <button type="submit">Submit</button>
     </form>
 
-    {% if message %}
-    <p>{{ message }}</p>
-    {% endif %}
+    <p style="color: {% if message_type==1 %}green{% else %}red{% endif %}; font-weight:bold;">
+    {{ message }}
+	</p>
+	
+	{% if message_type == 1 %}
+	<script>
+		// Fire confetti for a short burst
+		confetti({
+			particleCount: 100,
+			spread: 70,
+			origin: { y: 0.6 }
+		});
+	</script>
+	{% endif %}
+	
+	<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
 </body>
 </html>
 
