@@ -1,18 +1,18 @@
-# Use official Python image
+# Use an official lightweight Python image
 FROM python:3.11-slim
 
-# Set working directory
+# Create a working directory
 WORKDIR /app
 
-# Copy project files
-COPY . .
-
-# Install dependencies
+# Install dependencies early (better caching)
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Expose port Cloud Run expects
-ENV PORT 8080
-EXPOSE 8080
+# Copy the rest of the code
+COPY . .
 
-# Start the app using Gunicorn
-CMD ["gunicorn", "-b", "0.0.0.0:8080", "app:app"]
+# Expose the port for Cloud Run
+ENV PORT=8080
+
+# Start your app (replace with your actual entry point if different)
+CMD ["python", "app.py"]

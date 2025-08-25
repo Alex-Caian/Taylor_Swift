@@ -35,13 +35,6 @@ def play():
             msg = f"Well done! The answer was {answer}. Time taken: {round(taken,2)}s"
         else:
             msg = f"Nope! :( The answer was {answer}. Time taken: {round(taken,2)}s"
-            
-        # albums = handlers.get_albums()
-        # selection, hex_colors, answer, fig, ax = handlers.generate_drawing()
-        # fig.savefig("static/game.png")
-        # session["answer"] = answer
-        # plt.close(fig)
-        # return render_template("index.html", image="static/game.png", message=msg)
     
     albums = handlers.get_albums()
     selection, hex_colors, answer, fig, ax = handlers.generate_drawing()

@@ -2,13 +2,26 @@ import json
 import random
 import matplotlib.pyplot as plt
 from matplotlib.offsetbox import OffsetImage, AnnotationBbox
-import matplotlib.image as mpimg
+#import matplotlib.image as mpimg
+
+import urllib
+from PIL import Image
+import numpy as np
+
+from fuzzywuzzy import fuzz, process
+import config
 
 def get_albums():
     with open('albums.json', 'rb') as temp:
             resp = json.load(temp)
     temp.close()
     return resp
+
+def close_matching(user_input, docs=get_albums()):
+    choices = set(docs.keys())
+    similarities = [fuzz.ratio(user_input, choice) for choice in choices]
+    best_match = process.extractOne(user_input, choices)[0]
+    return best_match
 
 def generate_session():
     albums = get_albums()
@@ -36,9 +49,12 @@ def generate_drawing():
     ax.set_xticks([])
     ax.set_yticks([])
     ax.set_xlim(0, 1.25)
-    custom_image = mpimg.imread("https://github.com/Alex-Caian/Taylor_Swift/blob/main/Images/question.png?raw=True")
+    
+    with urllib.request.urlopen(config.url) as response:
+        question = np.array(Image.open(response).convert("RGBA"))
+    # custom_image = mpimg.imread("https://github.com/Alex-Caian/Taylor_Swift/blob/main/Images/question.png?raw=True")
 
-    custom_patch = OffsetImage(custom_image, zoom=0.08)
+    custom_patch = OffsetImage(question, zoom=0.08)
     ab = AnnotationBbox(custom_patch, (.63, 0), frameon=False)
     ax.add_artist(ab)
     ax.axis("off")
