@@ -28,36 +28,45 @@ def play():
     msg_prefix = config.msg_prefix
     outcome = config.outcome
     time_taken = config.time_taken
+    old_guess = config.old_guess
+    new_best = None
 
     if request.method == "POST":
         guess = request.form.get("guess", "")
         best_match = handlers.close_matching(guess)
-        time_taken = round(time.time() - start_time, 2)
+        time_taken = round(time.time() - start_time, 2)  
 
         if best_match == answer:
             msg_prefix = "Well done!"
             outcome = 1
+            new_best = None
+            if time_taken < session["best"]:
+                session["best"] = min(session["best"], time_taken)
+                new_best = 'New personal best!'
         else:
             msg_prefix = "Nope!"
             outcome = 0
+            new_best = None
 
-        selection, hex_colors, new_answer, fig, ax = handlers.generate_drawing()
-        fig.savefig(config.path)
+        selection, hex_colors, new_answer, fig, ax, album_pics = handlers.generate_drawing()
+        fig.savefig(config.path, bbox_inches="tight", pad_inches=0.15)
         plt.close(fig)
 
         session["start_time"] = time.time()
+        old_guess = album_pics[session["answer"]]
         session["answer"] = new_answer
         session["image"] = config.path
         display_image = config.path
 
     else:
-        selection, hex_colors, new_answer, fig, ax = handlers.generate_drawing()
-        fig.savefig(config.path)
+        selection, hex_colors, new_answer, fig, ax, album_pics = handlers.generate_drawing()
+        fig.savefig(config.path, bbox_inches="tight", pad_inches=0.15)
         plt.close(fig)
 
         session["start_time"] = time.time()
         session["answer"] = new_answer
         session["image"] = config.path
+        session["best"] = 999
         display_image = config.path
 
     return render_template(
@@ -68,6 +77,9 @@ def play():
         msg_answer=answer,   
         time_taken=time_taken,
         timestamp=int(time.time()*1000),
+        new_best=new_best,
+        best_score=session["best"] if session["best"]<999 else "No score set yet.",
+        album_img=old_guess
     )
 
 if __name__ == "__main__":

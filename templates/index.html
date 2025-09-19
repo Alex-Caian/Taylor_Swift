@@ -3,31 +3,72 @@
 <head>
     <title>Album Colour Game</title>
     <style>
-        /* Make the body a full-page flex container */
         body {
             display: flex;
-            flex-direction: column;   /* Stack elements vertically */
-            justify-content: center;  /* Center vertically */
-            align-items: center;      /* Center horizontally */
-            min-height: 100vh;        /* Full viewport height */
+            flex-direction: column;
+            min-height: 100vh;
             font-family: Arial, sans-serif;
-            background-color: #f0f0f0; /* Light grey background for subtle contrast */
-            margin: 0;                /* Remove default body margin */
+            background-color: #f0f0f0;
+            margin: 0;
         }
 
-        h1 {
-            margin-bottom: 20px;
+        /* Top header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            box-sizing: border-box;
+        }
+
+        .header h1 {
+            margin: 0;
             color: #333;
+			margin-left: 363px;
         }
 
-        img {
-            max-width: 70%;   /* Scale down if screen is small */
-            height: auto;
-            margin-bottom: 20px;
-            border: 2px solid #333;
-            border-radius: 5px;
+        .best-score {
+            font-size: 32px;
+            font-weight: bold;
+			min-width: 180px;
         }
+		
+		.best-score .label {
+				color: #A9A9A9;   
+				font-size: 24px;
+				font-weight: normal;
+				}
 
+		.best-score .score {
+			color: #ff6600;
+				}
+				
+        .content {
+			display: flex;
+			justify-content: center;
+			align-items: flex-start;
+			flex: 1;
+			gap: 40px;
+			padding: 30px;
+			box-sizing: border-box;
+			margin-top: -20px;
+				}
+
+		.game {
+			flex: 2;
+			text-align: center;
+			min-width: 500px;
+			margin-left: 200px;
+				}
+
+		.game img {
+			max-width: 70%;       
+			height: auto;
+			margin-bottom: 20px;
+			border: 2px solid #333;
+			border-radius: 5px;
+				}
+				
         form {
             display: flex;
             flex-direction: column;
@@ -46,7 +87,7 @@
         button {
             padding: 10px 20px;
             font-size: 16px;
-            background-color: #ff6600; /* Tiger orange accent */
+            background-color: #ff6600;
             color: white;
             border: none;
             border-radius: 5px;
@@ -61,50 +102,87 @@
             margin-top: 15px;
             font-weight: bold;
         }
+
+        /* Right-side album image */
+		.album-side {
+			flex: 1;
+			max-width: 320px;
+			display: flex;
+			justify-content: center;
+					}
+
+		.album-side img {
+			width: 300px;
+			height: 300px;
+			object-fit: cover;     
+			border-radius: 10px;
+			border: 2px solid #ccc;
+				}
     </style>
 </head>
 <body>
-    <h1>Guess the Missing Album</h1>
-    <img src="{{ image }}?{{ timestamp }}" alt="Game display">
-    
-    <form method="POST">
-        <input type="text" name="guess" placeholder="Enter album name">
-        <button type="submit">Submit</button>
-    </form>
+    <div class="header">
+        <h1>Guess the Missing Taylor Swift Album</h1>
+        <div class="best-score">
+			<span class="label">Personal best</span><br>
+			🏆 <span class="score">{{ best_score }}</span>
+		</div>
+    </div>
 
-    <p>
-		<span style = "color:
-		{% if msg_type == 1 %}
-			green
-		{% elif msg_type == 0 %}
-			red
-		{% else %}
-			#000000
-		{% endif %};
-		font-weight:bold;">
-			{{ msg_prefix }}
-		</span>
-		{% if msg_prefix %}
-			The answer was <b>{{ msg_answer }}</b>.<br>
-			Time taken: <b>{{ time_taken }}s</b>
+    <div class="content">
+        <div class="game">
+            <img src="{{ image }}?{{ timestamp }}" alt="Game display">
+            
+            <form method="POST">
+                <input type="text" name="guess" placeholder="Enter album name">
+                <button type="submit">Submit</button>
+            </form>
+
+            <p>
+                <span style="color:
+                {% if msg_type == 1 %}
+                    green
+                {% elif msg_type == 0 %}
+                    red
+                {% else %}
+                    #000000
+                {% endif %};
+                font-weight:bold;">
+                    {{ msg_prefix }}
+                </span>
+                {% if msg_prefix %}
+                    The answer was <b>{{ msg_answer }}</b>.<br>
+                    Time taken: <b>{{ time_taken }}s</b>
+                {% endif %}
+                {% if new_best %}
+                    {{ new_best }} 🎉
+                {% endif %}
+            </p>
+        </div>
+		
+		{% if album_img %}
+        <div class="album-side">
+            <img src="{{ album_img }}" alt="Album cover">
+        </div>
 		{% endif %}
-	</p>
+    </div>
 
-	
-	{% if msg_type == 1 %}
-	<script>
-		window.onload = function() {
-			confetti({
-				particleCount: 100,
-				spread: 70,
-				origin: { y: 0.6 }
-			});
-		}
-	</script>
-	{% endif %}
-	
-	<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    {% if new_best %}
+    <script>
+        window.onload = function() {
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+        }
+    </script>
+    {% endif %}
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 </body>
 </html>
+
+
 
