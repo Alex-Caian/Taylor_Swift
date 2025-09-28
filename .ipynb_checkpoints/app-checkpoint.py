@@ -16,20 +16,28 @@ app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET_KEY")
 
 answer = config.answer
+SESSION_KEYS = ["image", "answer", "start_time", "best_album", "best"]
 
 @app.route("/", methods=["GET", "POST"])
 def play():
+    if request.method == "GET":
+        for skey in SESSION_KEYS:
+            session.pop(skey, None)
     global answer
     
     image = session.get("image")
     answer = session.get("answer")
     start_time = session.get("start_time", time.time())
+    best_album = session.get("best_album", None)
 
     msg_prefix = config.msg_prefix
     outcome = config.outcome
     time_taken = config.time_taken
     old_guess = config.old_guess
+    
     new_best = None
+    
+    selection, hex_colors, new_answer, fig, ax, album_pics = handlers.generate_drawing()
 
     if request.method == "POST":
         guess = request.form.get("guess", "")
@@ -43,6 +51,8 @@ def play():
             if time_taken < session["best"]:
                 session["best"] = min(session["best"], time_taken)
                 new_best = 'New personal best!'
+                session["best_album"] = album_pics[session["answer"]]
+                best_album = session["best_album"]
         else:
             msg_prefix = "Nope!"
             outcome = 0
@@ -67,6 +77,8 @@ def play():
         session["answer"] = new_answer
         session["image"] = config.path
         session["best"] = 999
+        session["best_answer"] = None
+        best_album = session.get("best_album", None)
         display_image = config.path
 
     return render_template(
@@ -79,7 +91,8 @@ def play():
         timestamp=int(time.time()*1000),
         new_best=new_best,
         best_score=session["best"] if session["best"]<999 else "No score set yet.",
-        album_img=old_guess
+        album_img=old_guess,
+        best_album=best_album
     )
 
 if __name__ == "__main__":

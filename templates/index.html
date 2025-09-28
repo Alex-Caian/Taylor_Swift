@@ -31,6 +31,9 @@
             font-size: 32px;
             font-weight: bold;
 			min-width: 180px;
+			display: flex;
+			flex-direction: column;
+			gap: 4px;
         }
 		
 		.best-score .label {
@@ -42,6 +45,20 @@
 		.best-score .score {
 			color: #ff6600;
 				}
+				
+		.score-container {
+			display: flex; 
+			align-items: center;         
+			gap: 8px;                    
+						}
+				
+		.best-album {
+			width: 40px;     
+			height: 40px;
+			object-fit: cover;
+			border-radius: 3px;
+			border: 1px solid #ccc;
+						}
 				
         .content {
 			display: flex;
@@ -124,8 +141,13 @@
     <div class="header">
         <h1>Guess the Missing Taylor Swift Album</h1>
         <div class="best-score">
-			<span class="label">Personal best</span><br>
+			<span class="label">Personal best</span>
+			<div class="score-container">
 			🏆 <span class="score">{{ best_score }}</span>
+			{% if best_album %}
+            <img class="best-album" src="{{ best_album }}" alt="Best album cover">
+			{% endif %}
+			</div>
 		</div>
     </div>
 
