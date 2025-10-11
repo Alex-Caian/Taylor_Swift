@@ -59,7 +59,7 @@ def play():
             new_best = None
 
         selection, hex_colors, new_answer, fig, ax, album_pics = handlers.generate_drawing()
-        fig.savefig(config.path, bbox_inches="tight", pad_inches=0.15)
+        fig.savefig(config.path, bbox_inches="tight", pad_inches=0.15, dpi=100)
         plt.close(fig)
 
         session["start_time"] = time.time()
@@ -70,7 +70,7 @@ def play():
 
     else:
         selection, hex_colors, new_answer, fig, ax, album_pics = handlers.generate_drawing()
-        fig.savefig(config.path, bbox_inches="tight", pad_inches=0.15)
+        fig.savefig(config.path, bbox_inches="tight", pad_inches=0.15, dpi=100)
         plt.close(fig)
 
         session["start_time"] = time.time()
