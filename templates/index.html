@@ -4,189 +4,205 @@
     <title>Album Colour Game</title>
     <style>
         body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            margin: 0;
-        }
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    min-height: 100vh;
+}
 
-        /* Top header */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 30px;
-            box-sizing: border-box;
-        }
+/* Three-column layout */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 32px; 
+    padding: 40px;
+    box-sizing: border-box;
+}
 
-        .header h1 {
-            margin: 0;
-            color: #333;
-			margin-left: 363px;
-        }
+/* Left column */
+.left-column {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
 
-        .best-score {
-            font-size: 32px;
-            font-weight: bold;
-			min-width: 180px;
-			display: flex;
-			flex-direction: column;
-			gap: 4px;
-        }
-		
-		.best-score .label {
-				color: #A9A9A9;   
-				font-size: 24px;
-				font-weight: normal;
-				}
+/* Middle column: game title + main game */
+.main-column {
+	width:600px;
+	height:300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+	min-width: 400px;
+}
 
-		.best-score .score {
-			color: #ff6600;
-				}
-				
-		.score-container {
-			display: flex; 
-			align-items: center;         
-			gap: 8px;                    
-						}
-				
-		.best-album {
-			width: 40px;     
-			height: 40px;
-			object-fit: cover;
-			border-radius: 3px;
-			border: 1px solid #ccc;
-						}
-				
-        .content {
-			display: flex;
-			justify-content: center;
-			align-items: flex-start;
-			flex: 1;
-			gap: 40px;
-			padding: 30px;
-			box-sizing: border-box;
-			margin-top: -20px;
-				}
+#game-board {
+    width: 100%;
+    height: 100%;
+    max-width: 520px;
+    max-height: 520px;
+    border-radius: 8px;
+}
 
-		.game {
-			flex: 2;
-			text-align: center;
-			min-width: 500px;
-			margin-left: 200px;
-				}
+.main-column h1 {
+    color: #333;
+    margin-bottom: 10px;
+}
 
-		.game img {
-			max-width: 70%;       
-			height: auto;
-			margin-bottom: 20px;
-			border: 2px solid #333;
-			border-radius: 5px;
-				}
-				
-        form {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+/* Right column: personal best + album */
+.side-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+}
 
-        input[type="text"] {
-            padding: 10px;
-            font-size: 16px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            margin-bottom: 10px;
-            width: 250px;
-        }
+/* Score section */
+.best-score {
+    font-size: 32px;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
 
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #ff6600;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+.best-score .label {
+    color: #A9A9A9;
+    font-size: 24px;
+    font-weight: normal;
+}
 
-        button:hover {
-            background-color: #e65c00;
-        }
+.score-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
 
-        p {
-            margin-top: 15px;
-            font-weight: bold;
-        }
+.score {
+    color: #ff6600;
+}
 
-        /* Right-side album image */
-		.album-side {
-			flex: 1;
-			max-width: 320px;
-			display: flex;
-			justify-content: center;
-					}
+.best-album {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+}
 
-		.album-side img {
-			width: 300px;
-			height: 300px;
-			object-fit: cover;     
-			border-radius: 10px;
-			border: 2px solid #ccc;
-				}
+/* Album image */
+.album-side img {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 2px solid #ccc;
+}
+
+/* Game image */
+.game img {
+    max-width: 70%;
+    height: auto;
+    margin-bottom: 20px;
+    border: 2px solid #333;
+    border-radius: 5px;
+}
+
+/* Form and button styling */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+input[type="text"] {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    width: 250px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #ff6600;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #e65c00;
+}
     </style>
-</head>
 <body>
-    <div class="header">
-        <h1>Guess the Missing Taylor Swift Album</h1>
-        <div class="best-score">
-			<span class="label">Personal best</span>
-			<div class="score-container">
-			🏆 <span class="score">{{ best_score }}</span>
-			{% if best_album %}
-            <img class="best-album" src="{{ best_album }}" alt="Best album cover">
-			{% endif %}
-			</div>
-		</div>
-    </div>
-
-    <div class="content">
-        <div class="game">
-            <img src="{{ image }}?{{ timestamp }}" alt="Game display">
-            
-            <form method="POST">
-                <input type="text" name="guess" placeholder="Enter album name">
-                <button type="submit">Submit</button>
-            </form>
-
-            <p>
-                <span style="color:
-                {% if msg_type == 1 %}
-                    green
-                {% elif msg_type == 0 %}
-                    red
-                {% else %}
-                    #000000
-                {% endif %};
-                font-weight:bold;">
-                    {{ msg_prefix }}
-                </span>
-                {% if msg_prefix %}
-                    The answer was <b>{{ msg_answer }}</b>.<br>
-                    Time taken: <b>{{ time_taken }}s</b>
-                {% endif %}
-                {% if new_best %}
-                    {{ new_best }} 🎉
-                {% endif %}
-            </p>
+    <div class="container">
+        <!-- Left column (empty for now) -->
+        <div class="left-column">
+            <!-- Reserved for future content -->
         </div>
-		
-		{% if album_img %}
-        <div class="album-side">
-            <img src="{{ album_img }}" alt="Album cover">
+
+        <!-- Middle column: title + game -->
+        <div class="main-column">
+            <h1>Guess the Missing Taylor Swift Album</h1>
+
+            <div class="game">
+                <img src="{{ image }}?{{ timestamp }}" alt="Game display">
+                
+                <form method="POST">
+                    <input type="text" name="guess" placeholder="Enter album name">
+                    <button type="submit">Submit</button>
+                </form>
+
+                <p>
+                    <span style="color:
+                    {% if msg_type == 1 %}
+                        green
+                    {% elif msg_type == 0 %}
+                        red
+                    {% else %}
+                        #000000
+                    {% endif %};
+                    font-weight:bold;">
+                        {{ msg_prefix }}
+                    </span>
+                    {% if msg_prefix %}
+                        The answer was <b>{{ msg_answer }}</b>.<br>
+                        Time taken: <b>{{ time_taken }}s</b>
+                    {% endif %}
+                    {% if new_best %}
+                        {{ new_best }} 🎉
+                    {% endif %}
+                </p>
+            </div>
         </div>
-		{% endif %}
+
+        <!-- Right column: personal best + album -->
+        <div class="side-column">
+            <div class="best-score">
+                <span class="label">Personal best</span>
+                <div class="score-container">
+                    🏆 <span class="score">{{ best_score }}</span>
+                    {% if best_album %}
+                        <img class="best-album" src="{{ best_album }}" alt="Best album cover">
+                    {% endif %}
+                </div>
+            </div>
+
+            {% if album_img %}
+            <div class="album-side">
+                <img src="{{ album_img }}" alt="Album cover">
+            </div>
+            {% endif %}
+        </div>
     </div>
 
     {% if new_best %}
@@ -202,9 +218,8 @@
     {% endif %}
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-
 </body>
-</html>
+
 
 
 
