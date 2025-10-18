@@ -41,6 +41,7 @@ def generate_drawing():
     rows = 2
     total_slots = rows * cols
     
+    hex_colors = random.sample(hex_colors, k=len(hex_colors))
     for i, hex_color in enumerate(hex_colors):
         row = i // cols  
         col = i % cols  
