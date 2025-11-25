@@ -17,6 +17,10 @@ app.secret_key = os.getenv("FLASK_SECRET_KEY")
 
 answer = config.answer
 SESSION_KEYS = ["image", "answer", "start_time", "best_album", "best"]
+uf_dict = {'debut':'Taylor Swift',
+           'rep':'Reputation',
+           'ttpd':'The Tortured Poets Department',
+           'tloas':'The Life of a Showgirl'} 
 
 @app.route("/", methods=["GET", "POST"])
 def play():
@@ -41,6 +45,7 @@ def play():
 
     if request.method == "POST":
         guess = request.form.get("guess", "")
+        guess = uf_dict[guess] if guess.lower() in uf_dict.keys() else guess
         best_match = handlers.close_matching(guess)
         time_taken = round(time.time() - start_time, 2)  
 
@@ -94,6 +99,10 @@ def play():
         album_img=old_guess,
         best_album=best_album
     )
+
+@app.route("/robots.txt")
+def robots():
+    return "User-agent: *\nDisallow:", 200, {"Content-Type": "text/plain"}
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080, debug=True)

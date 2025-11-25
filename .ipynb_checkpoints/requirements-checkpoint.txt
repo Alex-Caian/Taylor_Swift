@@ -1,5 +1,5 @@
 Flask==2.3.2
-matplotlib
+matplotlib==3.8.2
 numpy==1.26.4
 Pillow
 fuzzywuzzy
