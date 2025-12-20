@@ -13,16 +13,25 @@
 /* Three-column layout */
 .container {
     display: flex;
-    justify-content: center;
+	background: linear-gradient(
+        to right,
+        transparent,
+        rgba(0,0,0,0.02),
+        transparent
+    );
+    justify-content: flex-start;
     align-items: flex-start;
-    gap: 32px; 
-    padding: 40px;
+    gap: 40px; 
+    padding: 40px 24px;
     box-sizing: border-box;
+	max-width: 1400px;
+    margin: 0 auto;
 }
 
 /* Left column */
 .left-column {
-    flex: 1;
+    flex: 0 0 260px;
+	padding-right: 8px;
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -30,13 +39,14 @@
 
 /* Middle column: game title + main game */
 .main-column {
-	width:600px;
-	height:300px;
+	flex: 1;
+	max-width: 720px;
+	padding: 0 12px;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-	min-width: 400px;
+	min-width: 520px;
 }
 
 #game-board {
@@ -54,11 +64,13 @@
 
 /* Right column: personal best + album */
 .side-column {
-    flex: 1;
+    flex: 0 0 300px;
+	padding-left: 8px;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 25px;
+	opacity: 0.98;
 }
 
 /* Score section */
@@ -142,13 +154,88 @@ button {
 button:hover {
     background-color: #e65c00;
 }
+
+/* Sidebar container */
+.sidebar {
+    width: 260px;
+    min-height: 100%;
+    background: #ffffff;
+    border-right: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 16px;
+    box-sizing: border-box;
+}
+
+/* Top area (expandable section) */
+.sidebar-top {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Toggle button */
+.sidebar-toggle {
+    background: none;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: left;
+    padding: 0;
+    margin-bottom: 10px;
+	color: #A9A9A9;
+}
+
+.sidebar-toggle:hover {
+    color: #ff6600;           
+}
+
+
+/* Collapsible content */
+.sidebar-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+/* Expanded state */
+.sidebar-content.open {
+    max-height: 500px; /* large enough for content */
+}
+
+/* Footer area */
+.sidebar-footer {
+    font-size: 14px;
+    text-align: center;
+    padding-top: 12px;
+    border-top: 1px solid #eee;
+}
+
     </style>
 <body>
     <div class="container">
         <!-- Left column (empty for now) -->
-        <div class="left-column">
-            <!-- Reserved for future content -->
-        </div>
+        <div class="sidebar">
+			<div class="sidebar-top">
+				<button class="sidebar-toggle" onclick="toggleSidebar()">
+					▶ Album info
+				</button>
+
+			<div class="sidebar-content" id="sidebarContent">
+				<p>Lorem ipsum dolor sit amet.</p>
+				<p>Favourite song: ???</p>
+				<p>More album trivia goes here.</p>
+				<p>You’ll replace this later.</p>
+			</div>
+			</div>
+
+			<div class="sidebar-footer">
+				<!-- Reserved for GitHub link later -->
+				<span style="opacity: 0.5;">© Behold</span>
+			</div>
+		</div>
+
 
         <!-- Middle column: title + game -->
         <div class="main-column">
@@ -218,6 +305,21 @@ button:hover {
     {% endif %}
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+	<script>
+	function toggleSidebar() {
+		const content = document.getElementById("sidebarContent");
+		const button = document.querySelector(".sidebar-toggle");
+
+		content.classList.toggle("open");
+
+		// Optional: rotate arrow
+		if (content.classList.contains("open")) {
+			button.innerText = "▼ Album info";
+		} else {
+			button.innerText = "▶ Album info";
+		}
+	}
+	</script>
 </body>
 
 
