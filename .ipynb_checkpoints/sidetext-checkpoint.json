@@ -1,0 +1,29 @@
+{"bg_pos": {
+	"Taylor Swift": "(10, 0)",
+	"Fearless": "(3800, 7)",
+	"Speak Now": "(6500, 0)",
+	"Red": "(50, 30)",
+	"1989": "(6500, 30)",
+	"Reputation": "(200, 60)",
+	"Lover": "(6500, 55)",
+	"Folklore": "(200, 85)",
+	"Evermore": "(3000, 85)",
+	"Midnights": "(6500, 85)",
+	"The Tortured Poets Department": "(3000, 30)",
+	"The Life of a Showgirl": "(3000, 120)"
+	     },
+"content": {
+	"Taylor Swift": "<p>Lorem ipsum dolor sit amet.</p><p>Favourite song: ???</p><p>More album trivia goes here.</p><p>You’ll replace this later.</p>",
+	"Fearless": "<p>Lorem ipsum dolor sit amet.</p><p>Favourite song: ???</p><p>More album trivia goes here.</p><p>You’ll replace this later.</p>",
+	"Speak Now": "<p>Lorem ipsum dolor sit amet.</p><p>Favourite song: ???</p><p>More album trivia goes here.</p><p>You’ll replace this later.</p>",
+	"Red": "<p>Lorem ipsum dolor sit amet.</p><p>Favourite song: ???</p><p>More album trivia goes here.</p><p>You’ll replace this later.</p>",
+	"1989": "<p>Lorem ipsum dolor sit amet.</p><p>Favourite song: ???</p><p>More album trivia goes here.</p><p>You’ll replace this later.</p>",
+	"Reputation": "<p>Lorem ipsum dolor sit amet.</p><p>Favourite song: ???</p><p>More album trivia goes here.</p><p>You’ll replace this later.</p>",
+	"Lover": "<p>Lorem ipsum dolor sit amet.</p><p>Favourite song: ???</p><p>More album trivia goes here.</p><p>You’ll replace this later.</p>",
+	"Folklore": "<p>Lorem ipsum dolor sit amet.</p><p>Favourite song: ???</p><p>More album trivia goes here.</p><p>You’ll replace this later.</p>",
+	"Evermore": "<p>Lorem ipsum dolor sit amet.</p><p>Favourite song: ???</p><p>More album trivia goes here.</p><p>You’ll replace this later.</p>",
+	"Midnights": "<p>Lorem ipsum dolor sit amet.</p><p>Favourite song: ???</p><p>More album trivia goes here.</p><p>You’ll replace this later.</p>",
+	"The Tortured Poets Department": "<p>Lorem ipsum dolor sit amet.</p><p>Favourite song: ???</p><p>More album trivia goes here.</p><p>You’ll replace this later.</p>",
+	"The Life of a Showgirl": "<p>Lorem ipsum dolor sit amet.</p><p>Favourite song: ???</p><p>More album trivia goes here.</p><p>You’ll replace this later.</p>"
+	     }
+}

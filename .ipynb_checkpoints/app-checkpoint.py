@@ -1,13 +1,14 @@
 import time
 import os
 from dotenv import load_dotenv
+import json
 
 import matplotlib.pyplot as plt
 import numpy as np
 import PIL, urllib
 from fuzzywuzzy import fuzz, process
 
-from flask import Flask, render_template, request, session
+from flask import Flask, render_template, request, session, redirect, url_for
 import handlers, config
 
 load_dotenv()
@@ -20,7 +21,11 @@ SESSION_KEYS = ["image", "answer", "start_time", "best_album", "best"]
 uf_dict = {'debut':'Taylor Swift',
            'rep':'Reputation',
            'ttpd':'The Tortured Poets Department',
-           'tloas':'The Life of a Showgirl'} 
+           'tloas':'The Life of a Showgirl'}
+
+with open('sidetext.json', 'rb') as temp:
+    sidetext = json.load(temp)
+temp.close()
 
 @app.route("/", methods=["GET", "POST"])
 def play():
@@ -29,10 +34,14 @@ def play():
             session.pop(skey, None)
     global answer
     
+    
     image = session.get("image")
     answer = session.get("answer")
     start_time = session.get("start_time", time.time())
     best_album = session.get("best_album", None)
+    
+    side_bg_pos = sidetext['bg_pos'].get(answer, [30000, 120])
+    side_content = sidetext['content'].get(answer, "Start guessing to get album trivia ⭐")
 
     msg_prefix = config.msg_prefix
     outcome = config.outcome
@@ -69,6 +78,9 @@ def play():
 
         session["start_time"] = time.time()
         old_guess = album_pics[session["answer"]]
+        side_bg_pos = sidetext['bg_pos'].get(session["answer"], [3000, 120])
+        side_content = sidetext['content'].get(session["answer"], None)
+        
         session["answer"] = new_answer
         session["image"] = config.path
         display_image = config.path
@@ -85,7 +97,7 @@ def play():
         session["best_answer"] = None
         best_album = session.get("best_album", None)
         display_image = config.path
-
+    
     return render_template(
         "index.html",
         image=display_image,
@@ -97,12 +109,21 @@ def play():
         new_best=new_best,
         best_score=session["best"] if session["best"]<999 else "No score set yet.",
         album_img=old_guess,
-        best_album=best_album
+        best_album=best_album,
+        side_bg_pos=side_bg_pos,
+        side_content=side_content
     )
 
 @app.route("/robots.txt")
 def robots():
     return "User-agent: *\nDisallow:", 200, {"Content-Type": "text/plain"}
+
+@app.route("/feedback", methods=["POST"])
+def feedback():
+    feedback_text = request.form.get("feedback", "").strip()
+    if feedback_text:
+        handlers.send_feedback_email(feedback_text)
+    return redirect(url_for("play")) 
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080, debug=True)

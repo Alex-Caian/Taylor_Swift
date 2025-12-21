@@ -9,6 +9,7 @@ import numpy as np
 
 from fuzzywuzzy import fuzz, process
 import config
+import os
 
 def get_albums():
     with open('albums.json', 'rb') as temp:
@@ -73,4 +74,23 @@ def generate_drawing():
     fig.tight_layout(pad=0.35)
     
     return selection, hex_colors, answer, fig, ax, images
+
+
+######## EMAIL NOTIFICATIONS
+import smtplib
+from email.message import EmailMessage
+
+def send_feedback_email(feedback_text):
+    msg = EmailMessage()
+    msg["Subject"] = "TS Game Feedback"
+    msg["From"] = os.environ["FEEDBACK_EMAIL_FROM"]
+    msg["To"] = os.environ["FEEDBACK_EMAIL_TO"]
+    msg.set_content(f"New ticket received:\n\n{feedback_text}")
+
+    # Send via Gmail SMTP
+    with smtplib.SMTP("smtp.gmail.com", 587) as smtp:
+        smtp.starttls()
+        smtp.login(os.environ["FEEDBACK_EMAIL_FROM"], os.environ["GMAIL_APP_PASSWORD"])
+        smtp.send_message(msg)
+
 

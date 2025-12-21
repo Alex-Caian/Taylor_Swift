@@ -8,6 +8,21 @@
     background-color: #f0f0f0;
     margin: 0;
     min-height: 100vh;
+	position: relative;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image: url("/static/background.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.08;              
+    z-index: -1;                
+    pointer-events: none;
 }
 
 /* Three-column layout */
@@ -161,11 +176,34 @@ button:hover {
     min-height: 100%;
     background: #ffffff;
     border-right: 1px solid #ddd;
+	
+	background-image: url("/static/eras.jpg");
+    background-size: 101% auto;
+    background-position: X% Y%;
+    background-repeat: no-repeat;
+	background-attachment: fixed;
+	
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     padding: 16px;
     box-sizing: border-box;
+	
+	position: relative;
+    overflow: hidden;
+}
+
+.sidebar::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.65);
+    z-index: 0;
+}
+
+.sidebar > * {
+    position: relative;
+    z-index: 1;
 }
 
 /* Top area (expandable section) */
@@ -184,7 +222,7 @@ button:hover {
     text-align: left;
     padding: 0;
     margin-bottom: 10px;
-	color: #A9A9A9;
+	color: #ff6600;
 }
 
 .sidebar-toggle:hover {
@@ -201,7 +239,7 @@ button:hover {
 
 /* Expanded state */
 .sidebar-content.open {
-    max-height: 500px; /* large enough for content */
+    max-height: 500px;
 }
 
 /* Footer area */
@@ -212,27 +250,119 @@ button:hover {
     border-top: 1px solid #eee;
 }
 
+/* Feedback area */
+.sidebar-feedback {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sidebar-feedback textarea {
+    width: 100%;
+    resize: vertical;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+.sidebar-feedback button {
+    align-self: flex-start;
+    padding: 6px 12px;
+    font-size: 14px;
+    background-color: #ff6600;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.sidebar-feedback button:hover {
+    background-color: #e65c00;
+}
+
+/* Tooltip container */
+.tooltip {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    margin-left: 6px;
+    font-size: 14px;
+    color: #666;
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 260px; /* adjust as needed */
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    text-align: left;
+    border-radius: 6px;
+    padding: 10px;
+    position: absolute;
+    z-index: 10;
+    bottom: 125%; /* show above the icon */
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+/* Tooltip arrow */
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%; /* bottom of tooltip */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: rgba(0,0,0,0.8) transparent transparent transparent;
+}
+
+/* Show the tooltip on hover */
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+
     </style>
 <body>
     <div class="container">
-        <!-- Left column (empty for now) -->
-        <div class="sidebar">
+        <!-- Left column [sidebar] -->
+        <div class="sidebar" style="background-position: {{ side_bg_pos[0] }}% {{ side_bg_pos[1] }}%;">
 			<div class="sidebar-top">
-				<button class="sidebar-toggle" onclick="toggleSidebar()">
-					▶ Album info
+				<button class="sidebar-toggle" id="sidebarToggle">
+					★ Click for album trivia
 				</button>
-
+				
 			<div class="sidebar-content" id="sidebarContent">
-				<p>Lorem ipsum dolor sit amet.</p>
-				<p>Favourite song: ???</p>
-				<p>More album trivia goes here.</p>
-				<p>You’ll replace this later.</p>
+			{% if side_content|length == 4 %}
+				{{ side_content[0] }}
+				<ul>
+					<li> {{ side_content[1] }} </li>
+					<li> {{ side_content[2] }} </li>
+					<li> {{ side_content[3] }} </li>
+				</ul>
+			{% else %}
+				{{ side_content }}
+			{% endif %}
 			</div>
 			</div>
 
 			<div class="sidebar-footer">
 				<!-- Reserved for GitHub link later -->
-				<span style="opacity: 0.5;">© Behold</span>
+				<span style="opacity: 0.5;">
+				Game made by <a href = https://github.com/Alex-Caian/Taylor_Swift>Alex 👾</a>
+				<div class="support">
+				Having fun? Support me <a href = https://buymeacoffee.com/alexcaian>with a coffee ☕</a>
+				</div>
+				</span>
 			</div>
 		</div>
 
@@ -270,6 +400,17 @@ button:hover {
                     {% endif %}
                 </p>
             </div>
+			
+			<div class="how-to-play" style="margin-top: 40px;">
+				<span class="tooltip">ℹ️ <i>How to play</i>
+				<span class="tooltiptext">
+				Guess the missing Taylor Swift album! Out of Taylor's 12 albums, 1 is missing. How well do you recognise Taylor's famous colour palettes?
+				<br></br>
+				The selection is randomised on each run. Hit 'Submit', see if you were right, and the quicker you guess, the better your personal best score!
+				Good luck ⭐
+				</span>
+				</span>
+			</div>
         </div>
 
         <!-- Right column: personal best + album -->
@@ -289,6 +430,23 @@ button:hover {
                 <img src="{{ album_img }}" alt="Album cover">
             </div>
             {% endif %}
+			
+			<div class="sidebar-feedback">
+				<form action="{{ url_for('feedback') }}" method="POST" id="feedbackForm">
+					<div>
+					<span class="tooltip">ℹ️
+						<span class="tooltiptext">
+							What would you like to see next? Timed 1v1 with your friends? Global leaderboard? Or did you find a bug/have some suggestions on how to improve? Just type your thoughts in, hit "Send Feedback" and I'll be notified (please no spam >.<)
+						</span>
+					</span>
+					<label for="feedbackText" style="font-weight:bold;">
+						Your suggestions here!
+					</label>
+					</div>
+					<textarea id="feedbackText" name="feedback" rows="4" placeholder="Write your ideas here..." required></textarea>
+					<button type="submit">Send Feedback</button>
+				</form>
+			</div>
         </div>
     </div>
 
@@ -314,12 +472,56 @@ button:hover {
 
 		// Optional: rotate arrow
 		if (content.classList.contains("open")) {
-			button.innerText = "▼ Album info";
+			button.innerText = "★ Album info";
 		} else {
-			button.innerText = "▶ Album info";
+			button.innerText = "★ Album info";
 		}
 	}
 	</script>
+	<script>
+		document.addEventListener("DOMContentLoaded", () => {
+		const toggle = document.getElementById("sidebarToggle");
+		const content = document.getElementById("sidebarContent");
+
+		// Load saved state from localStorage
+		const savedState = localStorage.getItem("sidebarOpen");
+		if (savedState === "true") {
+			content.classList.add("open");
+		}
+
+		toggle.addEventListener("click", () => {
+			content.classList.toggle("open");
+			// Save state
+			localStorage.setItem("sidebarOpen", content.classList.contains("open"));
+		});
+	});
+	</script>
+	
+	<script>
+	document.addEventListener("DOMContentLoaded", function() {
+		const feedbackForm = document.getElementById('feedbackForm');
+		const feedbackMessage = document.getElementById('feedbackMessage') || document.createElement('div');
+
+		feedbackForm.appendChild(feedbackMessage); 
+		feedbackMessage.id = 'feedbackMessage';
+
+		feedbackForm.addEventListener('submit', async function(e){
+			e.preventDefault();
+			const formData = new FormData(this);
+			const response = await fetch("{{ url_for('feedback') }}", {
+				method: "POST",
+				body: formData
+			});
+        if(response.ok){
+            feedbackMessage.textContent = "Thanks for your suggestion ^-^ Got another?";
+            this.reset();
+        } else {
+            feedbackMessage.textContent = "Could not receive your suggestion :'( Try again later please!";
+        }
+		});
+	});
+	</script>
+
 </body>
 
 
