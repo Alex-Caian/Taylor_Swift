@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Album Colour Game</title>
+	
     <style>
         body {
     font-family: Arial, sans-serif;
@@ -330,11 +331,64 @@ button:hover {
     opacity: 1;
 }
 
+/* ===========================
+   Mobile / Small Screen Styles
+   =========================== */
+/* MOBILE STACKING */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        gap: 24px;
+        padding: 16px;
+    }
+
+    .sidebar, .main-column, .side-column {
+        flex: 1 1 100%;
+        max-width: 100%;
+        padding: 0;
+    }
+
+    .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #ddd;
+        margin-bottom: 16px;
+    }
+
+    #game-board,
+    .game img {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+    }
+
+    .album-side img {
+        width: 100%;
+        max-width: 250px;
+        height: auto;
+    }
+
+    input[type="text"], textarea, button {
+        width: 95%;
+    }
+
+    .main-column, .side-column {
+        margin-bottom: 24px;
+    }
+}
+@media (max-width: 768px) {
+    .sidebar {
+        background-image: url("/static/eras-mobile.jpg");
+		background-size: cover;
+		background-position: center;
+    }
+}
 
     </style>
 <body>
     <div class="container">
         <!-- Left column [sidebar] -->
+		<div class="left-column">
         <div class="sidebar" style="background-position: {{ side_bg_pos[0] }}% {{ side_bg_pos[1] }}%;">
 			<div class="sidebar-top">
 				<button class="sidebar-toggle" id="sidebarToggle">
@@ -365,7 +419,7 @@ button:hover {
 				</span>
 			</div>
 		</div>
-
+		</div>
 
         <!-- Middle column: title + game -->
         <div class="main-column">
